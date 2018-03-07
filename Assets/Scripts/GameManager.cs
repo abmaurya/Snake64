@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 	public Image buttonSelectNotifier;
 	// Use this for initialization
 	void Start () {
+		Cursor.lockState = CursorLockMode.Locked;
 		Time.timeScale = 1;
 		currentScore = 0;
 		HighScoreInit ();
