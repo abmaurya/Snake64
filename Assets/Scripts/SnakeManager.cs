@@ -85,11 +85,18 @@ public class SnakeManager : MonoBehaviour
 			addBody ();
 			FoodManager.foodEaten = true;
 			mUI.setScoreText ();
+			gainSpeed ();
 		}
 		else if (col.gameObject.tag == "Player") {
 			gM.gameOver (col.gameObject.tag);
 		}
 			
+	}
+
+	void gainSpeed(){
+		CancelInvoke ("MoveSnake");
+		InvokeRepeating ("MoveSnake", 0, FoodManager.level);
+
 	}
 
 	void OnCollisionEnter (Collision col)

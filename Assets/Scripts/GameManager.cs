@@ -12,10 +12,11 @@ public class GameManager : MonoBehaviour {
 	int highestScore;		//Hieghest score yet
 	FileStream gameFile;
 	public Animator pMenuAnim;
-	public Button resume;
+	public Button resume,restart;
 	GameObject currSelection;
 	bool pauseMenuOpened = false;
 	public EventSystem eventSys;
+	public Text resumeText;
 
 	public Image buttonSelectNotifier;
 	// Use this for initialization
@@ -29,8 +30,10 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update(){
 		if (Input.GetKeyUp (KeyCode.Escape)) {
-			if (!pauseMenuOpened)
+			if (!pauseMenuOpened) {
+				pauseMenuOpened = true;
 				showPauseMenu ();
+			}
 			else
 				hidePauseMenu ();
 		}
@@ -48,9 +51,13 @@ public class GameManager : MonoBehaviour {
 	{
 //		pMenuAnim.enabled = true;
 		pMenuAnim.Play ("PanelIn");
-		resume.Select ();
-		currSelection = resume.gameObject;
-		pauseMenuOpened = true;
+
+		if (pauseMenuOpened) {
+			resumeText.color = Color.white;
+			resume.Select ();
+			currSelection = resume.gameObject;
+		}
+
 		Time.timeScale = 0;
 	}
 
@@ -60,7 +67,6 @@ public class GameManager : MonoBehaviour {
 		pauseMenuOpened = false;
 		Time.timeScale = 1;
 		eventSys.SetSelectedGameObject (null);
-//		buttonSelectNotifier.GetComponent<RectTransform>().position = new Vector3(-350,0,0); 
 	}
 
 	void LateUpdate () {
@@ -108,6 +114,8 @@ public class GameManager : MonoBehaviour {
 		print ("Game Over dumbo!!!");
 		Time.timeScale = 0;
 		resume.interactable = false;
+		restart.Select ();
+		resumeText.color = Color.gray;
 		showPauseMenu ();
 
 		////Optional Part\\\\
